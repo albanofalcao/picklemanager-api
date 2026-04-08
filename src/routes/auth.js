@@ -4,24 +4,24 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 
 export const authRoutes = Router();
 
-authRoutes.post('/login', async (req, res) => {
+authRoutes.post('/login', async function(req, res) {
   try {
-    const resultado = await login(req.body.email, req.body.senha);
+    var resultado = await login(req.body.email, req.body.senha);
     res.json(resultado);
-  } catch (err) {
-    res.status(401).json({ error: err.message });
+  } catch(e) {
+    res.status(401).json({ error: e.message });
   }
 });
 
-authRoutes.post('/trocar-senha', authMiddleware, async (req, res) => {
+authRoutes.post('/trocar-senha', authMiddleware, async function(req, res) {
   try {
     await trocarSenha(req.userId, req.body.senhaAtual, req.body.novaSenha);
     res.json({ ok: true });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+  } catch(e) {
+    res.status(400).json({ error: e.message });
   }
 });
 
-authRoutes.get('/me', authMiddleware, (req, res) => {
+authRoutes.get('/me', authMiddleware, function(req, res) {
   res.json({ userId: req.userId, arenaId: req.arenaId, role: req.role });
 });

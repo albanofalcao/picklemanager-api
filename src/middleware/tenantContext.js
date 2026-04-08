@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'async_hooks';
 export const tenantStorage = new AsyncLocalStorage();
-export const getArenaId   = () => tenantStorage.getStore()?.arenaId ?? null;
-export const getRole      = () => tenantStorage.getStore()?.role ?? null;
-export const isSuperAdmin = () => tenantStorage.getStore()?.role === 'super_admin';
+export function getArenaId() { var s = tenantStorage.getStore(); return s ? s.arenaId : null; }
+export function getRole() { var s = tenantStorage.getStore(); return s ? s.role : null; }
+export function isSuperAdmin() { var s = tenantStorage.getStore(); return s && s.role === 'super_admin'; }

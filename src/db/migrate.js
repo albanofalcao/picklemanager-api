@@ -3,8 +3,7 @@ import { db } from './connection.js';
 
 async function migrate() {
   console.log('Rodando migrations...');
-
-  await db.schema.createTableIfNotExists('arenas', t => {
+  await db.schema.createTableIfNotExists('arenas', function(t) {
     t.uuid('id').primary().defaultTo(db.raw('gen_random_uuid()'));
     t.string('nome').notNullable();
     t.string('subdomain').unique().notNullable();
@@ -16,8 +15,7 @@ async function migrate() {
     t.boolean('marketplace_ativo').defaultTo(false);
     t.timestamps(true, true);
   });
-
-  await db.schema.createTableIfNotExists('usuarios', t => {
+  await db.schema.createTableIfNotExists('usuarios', function(t) {
     t.uuid('id').primary().defaultTo(db.raw('gen_random_uuid()'));
     t.uuid('arena_id').references('id').inTable('arenas').onDelete('CASCADE').nullable();
     t.string('nome').notNullable();
@@ -29,8 +27,7 @@ async function migrate() {
     t.timestamp('ultimo_acesso');
     t.timestamps(true, true);
   });
-
-  await db.schema.createTableIfNotExists('produtos', t => {
+  await db.schema.createTableIfNotExists('produtos', function(t) {
     t.uuid('id').primary().defaultTo(db.raw('gen_random_uuid()'));
     t.uuid('arena_id').references('id').inTable('arenas').onDelete('CASCADE').notNullable();
     t.string('nome').notNullable();
@@ -41,11 +38,10 @@ async function migrate() {
     t.boolean('ativo').defaultTo(true);
     t.timestamps(true, true);
   });
-
-  const { default: bcrypt } = await import('bcrypt');
-  const existe = await db('usuarios').where({ role: 'super_admin' }).first();
+  var bcrypt = await import('bcrypt');
+  var existe = await db('usuarios').where({ role: 'super_admin' }).first();
   if (!existe) {
-    const hash = await bcrypt.hash(process.env.ADMIN_SENHA || 'Admin@2026!', 10);
+    var hash = await bcrypt.default.hash(process.env.ADMIN_SENHA || 'Admin@2026!', 10);
     await db('usuarios').insert({
       nome: 'Administrador',
       email: process.env.ADMIN_EMAIL || 'admin@picklemanager.com.br',
@@ -55,9 +51,8 @@ async function migrate() {
     });
     console.log('Super admin criado!');
   }
-
-  console.log('Migrations concluídas.');
+  console.log('Migrations concluidas.');
   await db.destroy();
 }
 
-migrate().catch(err => { console.error(err); process.exit(1); });
+migrate().catch(function(err) { console.error(err); process.exit(1); });

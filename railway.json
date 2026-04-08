@@ -1,1 +1,12 @@
-{"build":{"builder":"NIXPACKS"},"deploy":{"startCommand":"node src/server.js","healthcheckPath":"/health","restartPolicyType":"ON_FAILURE"}}
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install"
+  },
+  "deploy": {
+    "startCommand": "node src/server.js",
+    "healthcheckPath": "/health",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}

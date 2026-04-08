@@ -3,13 +3,13 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 import { BaseRepository } from '../repositories/BaseRepository.js';
 
 export const arenaRoutes = Router();
-const repo = new BaseRepository('arenas');
+var repo = new BaseRepository('arenas');
 
-arenaRoutes.get('/', authMiddleware, async (req, res) => {
+arenaRoutes.get('/', authMiddleware, async function(req, res) {
   try {
-    const arenas = await repo.findAll();
+    var arenas = await repo.findAll();
     res.json(arenas);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
   }
 });
