@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { authRoutes } from './routes/auth.js';
@@ -14,10 +14,15 @@ app.use(express.json());
 
 app.get('/health', async function(req, res) {
   try {
-    await db.raw('SELECT 1');
-    res.json({ status: 'ok', version: '1.0.0' });
+    var result = await db.raw('SELECT 1 as test');
+    res.json({ status: 'ok', version: '1.0.0', db: result.rows });
   } catch(e) {
-    res.status(503).json({ status: 'error', message: e.message });
+    res.status(503).json({ 
+      status: 'error', 
+      message: e.message,
+      code: e.code || null,
+      detail: e.detail || null
+    });
   }
 });
 
