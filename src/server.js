@@ -9,7 +9,7 @@ import { db } from './db/connection.js';
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: '*', credentials: true }));
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 app.get('/health', async function(req, res) {
