@@ -19,6 +19,7 @@ export async function up(db) {
     t.boolean('cobranca_pelo_grupo').defaultTo(false);
     t.timestamps(true, true);
   });
+  await db.raw('ALTER TABLE arenas DISABLE ROW LEVEL SECURITY');
 }
 
 export async function down(db) {
