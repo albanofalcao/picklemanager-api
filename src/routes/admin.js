@@ -7,7 +7,7 @@ adminRoutes.get('/status', (req, res) => {
   res.json({ status: 'admin ok' });
 });
 
-adminRoutes.post('/setup', async (req, res) => {
+adminRoutes.get('/setup', async (req, res) => {
   try {
     await db.raw('ALTER TABLE grupos_economicos DISABLE ROW LEVEL SECURITY');
     await db.raw('ALTER TABLE arenas DISABLE ROW LEVEL SECURITY');
